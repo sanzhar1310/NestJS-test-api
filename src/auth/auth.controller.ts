@@ -22,11 +22,10 @@ export class AuthController {
     private readonly userService: UserService,
   ) {}
 
-  @UseGuards(AuthGuard('jwt'))
   @Get()
   ping(@Headers() reqHeader): Promise<IUser> {
     const token: string = (
-      reqHeader.authorization || reqHeader.Authorization
+      reqHeader.authorization || reqHeader.Authorization || ''
     ).replace('Bearer ', '');
     return this.authService.ping(token);
   }
@@ -45,17 +44,15 @@ export class AuthController {
     user: UserEntity,
   ): Promise<IUser> {
     return this.userService
-      .register(user)
-      .then(() => this.authService.signIn(user));
+      .register(user);
   }
 
-  @UseGuards(AuthGuard('jwt'))
   @Get('logout')
   @HttpCode(204)
   logout(@Headers() reqHeader): Promise<void> {
     const token: string = (
-      reqHeader.authorization || reqHeader.Authorization
+      reqHeader.authorization || reqHeader.Authorization || ''
     ).replace('Bearer ', '');
-    return this.logout(token);
+    return this.authService.logout(token);
   }
 }

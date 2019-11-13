@@ -1,4 +1,8 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from 'src/entity/entity.users';
 import { Repository } from 'typeorm';
@@ -46,6 +50,13 @@ export class UserService extends TypeOrmCrudService<UserEntity> {
 
   public deleteToken(token: string): Promise<void> {
     return this.findOne({ where: { token } })
+      .then((user: UserEntity) => {
+        if (user) {
+          return user;
+        } else {
+          throw new NotFoundException();
+        }
+      })
       .then((user: UserEntity) =>
         this.userRepository.update(user.id, { ...user, token: null }),
       )

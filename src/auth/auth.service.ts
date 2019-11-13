@@ -49,16 +49,14 @@ export class AuthService {
         const tokenHash = this.jwtService.sign(payload);
         existsUser.token = tokenHash;
         return this.userService
-          .saveUser(existsUser)
-          .then(savedUser => this.ping(savedUser.token));
+          .saveUser(existsUser);
       },
     );
   }
 
   public signUp(user: UserEntity): Promise<IUser> {
     return this.userService
-      .register(user)
-      .then(savedUser => this.ping(savedUser.token));
+      .register(user);
   }
 
   public ping(token: string): Promise<IUser> {
