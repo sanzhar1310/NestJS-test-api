@@ -30,7 +30,7 @@
     "@nestjsx/crud-typeorm": "^4.2.0",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.2.3",
-    "class-validator": "^0.11.0",
+    "class-validator": "^0.14.0",
     "dotenv": "^8.2.0",
     "ms": "^2.1.2",
     "mysql": "^2.17.1",
